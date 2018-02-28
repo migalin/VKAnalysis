@@ -1,0 +1,3 @@
+# from .TimeActivityAnalysis import TimeActivityAnalysisWidget
+from .InterestingActivityAnalysis import InterestingActivityAnalysisWidget
+from .FriendsActivityAnalysis import FriendsActivityAnalysisWidget

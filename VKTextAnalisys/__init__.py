@@ -1,0 +1,1 @@
+from .TextAnalysisWidget import VKTextAnalysisWidget

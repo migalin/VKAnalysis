@@ -102,4 +102,6 @@ python VKAnalysis\VKAnalysis.py
 
 Удалить модуль: `python .\manage.py delete <modulename>`
 
+Например, чтобы не устанавливать numpy+mkl и scipy при установке пакетов, можно не использовать модуль проверки фотографий. Для этого выполним `python .\manage.py delete VKPhotoAnalysis`
+
 Очистить кэш cookie и access_token: `python .\manage.py clear`

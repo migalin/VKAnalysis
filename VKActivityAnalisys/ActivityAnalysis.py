@@ -10,7 +10,7 @@ import vk_api
 import vk_api.exceptions
 from vk_api import execute
 
-from .TimeActivityAnalysis import VKOnlineGraph
+#from .TimeActivityAnalysis import VKOnlineGraph
 from .VKFilesUtils import check_and_create_path, DIR_PREFIX
 
 
@@ -350,49 +350,6 @@ class VKActivityAnalysis:
         common_age = int(list(self.score_common_age(uid=uid).items())[0][0])
         res['friends_predicted'] = common_age
         return res
-
-    def check_online_and_save(self, uid, base_name='user_online.txt'):
-        # TODO: удалить это после проверки завсимости
-        online = self.is_online(uid)
-        dir_name = DIR_PREFIX + str(uid) + '/'
-        check_and_create_path(dir_name)
-        fn = dir_name + base_name
-        mode = 'a+' if os.path.exists(fn) else 'w+'
-        file = open(fn, mode)
-        file.write(str(datetime.datetime.now().strftime(VKOnlineGraph.FORMAT_DATETIME)) + ';' + str(online) + '\n')
-        file.close()
-
-    def check_friends_online_and_save(self, uid, base_name='friends.json'):
-        # TODO: удалить это после проверки завсимости
-        dir_name = DIR_PREFIX + str(uid) + '/'
-        check_and_create_path(dir_name)
-        fn = dir_name + base_name
-
-        raw_data = '{}'
-        if os.path.isfile(fn):
-            file = open(fn, 'r')
-            raw_data = file.read()
-            file.close()
-        try:
-            json_friends = json.loads(raw_data)
-        except json.decoder.JSONDecodeError:
-            json_friends = json.loads('{}')
-
-        friends_online = self.check_friends_online(uid=uid)
-        user_online = self.is_online(uid=uid)
-
-        for friend in list(friends_online):
-            if str(friend) in json_friends:
-                json_friends[str(friend)][user_online] = \
-                    json_friends[str(friend)][user_online] + 1
-            else:
-                if user_online:
-                    json_friends.update({str(friend): [0, 1]})
-                else:
-                    json_friends.update({str(friend): [1, 0]})
-
-        file = open(fn, 'w+')
-        file.write(json.dumps(json_friends))
 
     def check_friends_online(self, uid):
         """

@@ -68,7 +68,7 @@ ECHO.
 :RUN
 SET /P RUN=Done. Run VKAnalysis? y(es) or [n(no)]
 IF "%RUN%"=="y" (
-    python .\VKAnalysis\VKAnalysis.py
+    python VKAnalysis.py
 ) ELSE (
     pause
 )

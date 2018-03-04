@@ -14,6 +14,7 @@ import zipfile
 
 # TODO: вместо этой кустарщины сделать скрипт установки и удаления в модулях
 
+CONFIG = os.path.join(os.path.dirname(__file__), 'Core/config.py')
 
 def module_list(name=None, mode='print'):
     """
@@ -23,7 +24,7 @@ def module_list(name=None, mode='print'):
     :param mode: 'print' - печатает список, остальные значения = возврат списка
     :return: список названий модулей или None
     """
-    modules = re.findall(r"# MODULE (.*)", open('Core/config.py', 'r').read())
+    modules = re.findall(r"# MODULE (.*)", open(CONFIG, 'r').read())
     if mode != 'print':
         return modules
     print("Установлены следующие модули:")
@@ -52,7 +53,7 @@ def module_add(name=None):
     except KeyError:
         print("Ошибка структуры модуля")
         return
-    open('Core/config.py', 'a+').write("\n# MODULE "
+    open(CONFIG, 'a+').write("\n# MODULE "
                                        + module_name + "\n"
                                        + str(install_script, 'utf-8')
                                        + "\n# END " + module_name + "\n")
@@ -69,13 +70,13 @@ def module_delete(name=None):
     :param name: имя модуля
     """
     modules = module_list(mode='return')
-    if name not in modules or not os.path.exists(name):
+    if name not in modules or not os.path.exists(os.path.join(os.path.dirname(__file__), name)):
         print("Модуль", name, "не найден")
         return
     print("Модуль", name, "удаляется")
-    uninst = re.sub("# MODULE " + name + "(.|\n)*# END " + name, "", open('Core/config.py', 'r').read())
-    open('Core/config.py', 'w').write(uninst)
-    shutil.rmtree(name)
+    uninst = re.sub("# MODULE " + name + "(.|\n)*# END " + name, "", open(CONFIG, 'r').read())
+    open(CONFIG, 'w').write(uninst)
+    shutil.rmtree(os.path.join(os.path.dirname(__file__), name))
 
 
 def clear_cache(name=None):

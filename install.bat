@@ -61,7 +61,7 @@ IF "%PHOTONEED%"=="y" (
 
 ) ELSE (
     ECHO Deleting VKPhotoAnalysis module
-    python .\VKAnalysis\manage.py delete VKPhotoAnalysis
+    python manage.py delete VKPhotoAnalysis
 )
 ECHO.
 
